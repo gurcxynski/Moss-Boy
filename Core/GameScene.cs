@@ -21,10 +21,10 @@ namespace PlatformerGame.Core
                 new(new RectangleF(300, 400, 400, 20)),
 
                 new(new RectangleF(0, Configuration.windowSize.Y - 20, Configuration.windowSize.X, 20)),
-                new(new RectangleF(0, 0, Configuration.windowSize.X, 20)),
+                //new(new RectangleF(0, 0, Configuration.windowSize.X, 20)),
                 
-                new(new RectangleF(0, 0, 20, Configuration.windowSize.Y)),
-                new(new RectangleF(Configuration.windowSize.X - 20, 0, 20, Configuration.windowSize.Y)),
+                new(new RectangleF(-20, 0, 25, Configuration.windowSize.Y)),
+                new(new RectangleF(Configuration.windowSize.X - 5, 0, 25, Configuration.windowSize.Y)),
             };
         }
         public void Initialize()

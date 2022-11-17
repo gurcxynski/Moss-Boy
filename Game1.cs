@@ -58,6 +58,7 @@ public class Game1 : Game
             ["button"] = Content.Load<Texture2D>("button"),
             ["player"] = Content.Load<Texture2D>("player"),
             ["dodge"] = Content.Load<Texture2D>("dodge"),
+            ["bullet"] = Content.Load<Texture2D>("bullet"),
         };
 
         homeScreen.Initialize();
