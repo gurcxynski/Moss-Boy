@@ -27,14 +27,14 @@ namespace PlatformerGame.Core
         }
         public virtual void Update(GameTime gameTime)
         {
-            if(Velocity.Y != 0) Velocity.Y += Configuration.gravity;
+            Velocity.Y += Configuration.gravity;
             Bounds.Position += Velocity * gameTime.GetElapsedSeconds() * 50;
         }
 
         public void OnCollision(CollisionEventArgs collisionInfo)
         {
-            Velocity.X *= -1;
-            Velocity.Y *= -1;
+            Velocity = Vector2.Zero;
+
             Bounds.Position -= collisionInfo.PenetrationVector;
         }
     }

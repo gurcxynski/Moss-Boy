@@ -22,10 +22,11 @@ public class Player : GameObject
         }
         if (Game1.self.keyboard.IsPressed(Keys.Up))
         {
-            Debug.WriteLine(Velocity.Y);
-            if(Velocity.Y < 3 && Velocity.Y > -3) Velocity.Y = -Configuration.playerJump;
+            Velocity.Y = -Configuration.playerJump;
         }
         Velocity *= Configuration.dampening;
         base.Update(gameTime);
+        //if (Bounds.Position.X < 0) Bounds.Position = new Vector2(0, Bounds.Position.Y);
+        //if (Bounds.Position.X + 50 > Configuration.windowSize.X) Bounds.Position = new Vector2(Configuration.windowSize.X - 50, Bounds.Position.Y);
     }
 }

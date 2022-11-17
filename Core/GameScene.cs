@@ -2,52 +2,53 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-
+using System.Collections.Generic;
 namespace PlatformerGame.Core
 {
     public class GameScene
     {
         internal bool drawScreen = false;
         Player player;
-        Block block;
-        Block block2;
-        Block ground;
+        List<Block> blocks;
         CollisionComponent collisionComponent = new (new RectangleF(0, 0, Configuration.windowSize.X, Configuration.windowSize.Y));
         public GameScene(int level)
         {
-            player = new(new(0, 1), new RectangleF(50, 100, 100, 100));
-            block = new(new RectangleF(100, 300, 100, 50));
-            block2 = new(new RectangleF(300, 100, 400, 50));
-            ground = new(new RectangleF(0, Configuration.windowSize.Y - 20, Configuration.windowSize.X, 20));
-        }
+            player = new(new(0, 1), new RectangleF(50, 100, 50, 50));
+            blocks = new()
+            {
+                new(new RectangleF(100, 300, 100, 20)),
+                new(new RectangleF(300, 100, 400, 20)),
+                new(new RectangleF(300, 400, 400, 20)),
 
-        internal void Initialize()
+                new(new RectangleF(0, Configuration.windowSize.Y - 20, Configuration.windowSize.X, 20)),
+                new(new RectangleF(0, 0, Configuration.windowSize.X, 20)),
+                
+                new(new RectangleF(0, 0, 20, Configuration.windowSize.Y)),
+                new(new RectangleF(Configuration.windowSize.X - 20, 0, 20, Configuration.windowSize.Y)),
+            };
+        }
+        public void Initialize()
         {
             collisionComponent.Insert(player);
-            collisionComponent.Insert(block);
-            collisionComponent.Insert(block2);
-            collisionComponent.Insert(ground);
+            blocks.ForEach(block => collisionComponent.Insert(block));
         }
 
-        internal void TextPopUp(int time, string text)
+        public void TextPopUp(int time, string text)
         {
             
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             player.Draw(spriteBatch);
-            block.Draw(spriteBatch);
-            block2.Draw(spriteBatch);
-            ground.Draw(spriteBatch);
+            blocks.ForEach(block => block.Draw(spriteBatch));
         }
 
-        internal void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             player.Update(gameTime);
-            block.Update(gameTime);
-            block2.Update(gameTime);
-            ground.Update(gameTime);
+            blocks.ForEach(block => block.Update(gameTime));
             collisionComponent.Update(gameTime);
+
         }
     }
 }
