@@ -9,7 +9,7 @@ namespace PlatformerGame.Core;
 public class Player : GameObject
 {
     protected bool inAir = false;
-    public Player(Vector2 velocity, IShapeF bounds) : base(velocity, bounds)
+    public Player(IShapeF bounds, Vector2 velocity) : base(bounds, velocity)
     {
     }
     public new void Update(GameTime gameTime)
@@ -26,6 +26,10 @@ public class Player : GameObject
         {
             Velocity.Y = -Configuration.playerJump;
             inAir = true;
+        }
+        if (Game1.self.keyboard.IsPressed(Keys.Space))
+        {
+            Shoot(Bounds.Position);
         }
         Velocity *= Configuration.dampening;
         base.Update(gameTime);

@@ -11,7 +11,7 @@ namespace PlatformerGame.Core
         public Vector2 Velocity;
         public IShapeF Bounds { get; private set; }
 
-        public GameObject(Vector2 velocity, IShapeF bounds)
+        public GameObject(IShapeF bounds, Vector2 velocity)
         {
             Velocity = velocity;
             Bounds = bounds;
@@ -25,9 +25,10 @@ namespace PlatformerGame.Core
         {
 
         }
-        public virtual void Shoot()
+        public virtual void Shoot(Vector2 pos)
         {
-
+            var bullet = new Bullet(new RectangleF((int)pos.X, (int)pos.Y, 10, 10), new (10, 0));
+            Game1.self.activeScene.AddBullet(bullet);
         }
         public virtual void Update(GameTime gameTime)
         {

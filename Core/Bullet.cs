@@ -5,23 +5,19 @@ using MonoGame.Extended.Collisions;
 
 namespace PlatformerGame.Core
 {
-    internal class Bullet : IEntity
+    public class Bullet : IEntity
     {
-        public IShapeF Bounds { get; private set; }
-
-        public void Draw(SpriteBatch spriteBatch)
+        public Bullet(IShapeF bounds, Vector2 velocity) : base(bounds, velocity)
         {
-            throw new System.NotImplementedException();
+
         }
-
-        public void OnCollision(CollisionEventArgs collisionInfo)
+        public new void Initialize()
         {
-            throw new System.NotImplementedException();
+
         }
-
-        public void Update(GameTime gameTime)
+        new public void Draw(SpriteBatch spriteBatch)
         {
-            throw new System.NotImplementedException();
+            spriteBatch.DrawRectangle((RectangleF)Bounds, Color.Yellow, 3);
         }
     }
 }
