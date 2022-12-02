@@ -3,25 +3,22 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
 
-namespace PlatformerGame.Core
+namespace MossBoy.Core;
+
+public class Bullet : GameObject
 {
-    internal class Bullet : IEntity
+
+    public Bullet(RectangleF bounds, Vector2 vel) : base()
     {
-        public IShapeF Bounds { get; private set; }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnCollision(CollisionEventArgs collisionInfo)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            throw new System.NotImplementedException();
-        }
+        Bounds = bounds;
+        Velocity = vel;
+    }
+    new public void Draw(SpriteBatch spriteBatch)
+    {
+        spriteBatch.DrawRectangle((RectangleF)Bounds, Color.Yellow, 3);
+    }
+    public override void OnCollision(CollisionEventArgs collisionInfo)
+    {
+        if (collisionInfo.Other.GetType() != typeof(Player)) Game1.self.activeScene.RemoveBullet(this);
     }
 }

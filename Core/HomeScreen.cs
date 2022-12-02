@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace PlatformerGame.Core;
+namespace MossBoy.Core;
 
 public class  HomeScreen
 {

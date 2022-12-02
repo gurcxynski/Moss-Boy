@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Collisions;
 
-namespace PlatformerGame.Core;
+namespace MossBoy.Core;
 
 public interface IEntity : ICollisionActor
 {

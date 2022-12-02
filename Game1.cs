@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.EasyInput;
 using MonoGame.Extended;
-using PlatformerGame.Core;
+using MossBoy.Core;
 using System.Collections.Generic;
 
-namespace PlatformerGame;
+namespace MossBoy;
 public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
@@ -54,10 +54,10 @@ public class Game1 : Game
 
         textures = new()
         {
+            ["arena"] = Content.Load<Texture2D>("arena"),
             ["menubackground"] = Content.Load<Texture2D>("menu"),
             ["button"] = Content.Load<Texture2D>("button"),
             ["player"] = Content.Load<Texture2D>("player"),
-            ["dodge"] = Content.Load<Texture2D>("dodge"),
             ["bullet"] = Content.Load<Texture2D>("bullet"),
         };
 
@@ -83,6 +83,7 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
 
+        _spriteBatch.Draw(textures["arena"], new Rectangle(new Point(0, 0), new Point((int)Configuration.windowSize.X, (int)Configuration.windowSize.Y)), Color.White);
         homeScreen.Draw(_spriteBatch);
         activeScene?.Draw(_spriteBatch);
 

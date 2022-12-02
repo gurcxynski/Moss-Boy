@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
 
-namespace PlatformerGame.Core
+namespace MossBoy.Core
 {
     public class Block : IEntity
     {

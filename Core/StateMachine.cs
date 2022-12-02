@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformerGame.Core;
+namespace MossBoy.Core;
 
 public class StateMachine
 {
