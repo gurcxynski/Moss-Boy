@@ -1,61 +1,43 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.EasyInput;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using System.Diagnostics;
 
 namespace MossBoy.Core;
 
 public class Player : GameObject
 {
-    double lastShot = 0;
-    public Player() : base()
+    public Player()
     {
         Texture = Game1.self.textures["player"];
         Bounds = new RectangleF(50, 100, Texture.Width, Texture.Height);
+        Game1.self.mouse.OnMouseButtonPressed += OnLeftClick;
     }
-    public new void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
-        if (Game1.self.keyboard.IsPressed(Keys.Left))
-        {
-            Velocity.X = -Configuration.playerMove;
-        }
-        if (Game1.self.keyboard.IsPressed(Keys.Right))
-        {
-            Velocity.X = Configuration.playerMove;
-        }
-        if (Game1.self.keyboard.IsPressed(Keys.Up))
-        {
-            Velocity.Y = -Configuration.playerMove;
-        }
-        if (Game1.self.keyboard.IsPressed(Keys.Down))
-        {
-            Velocity.Y = Configuration.playerMove;
-        }
-        if (Game1.self.mouse.IsPressed(MonoGame.EasyInput.MouseButtons.Left)) 
-        { 
-            Shoot(gameTime); 
-        }
+        if (Game1.self.keyboard.IsPressed(Keys.A)) Velocity.X -= Configuration.playerMove;
+        if (Game1.self.keyboard.IsPressed(Keys.D)) Velocity.X += Configuration.playerMove;
+        if (Game1.self.keyboard.IsPressed(Keys.W)) Velocity.Y -= Configuration.playerMove;
+        if (Game1.self.keyboard.IsPressed(Keys.S)) Velocity.Y += Configuration.playerMove;
+
         Velocity *= Configuration.dampening;
         base.Update(gameTime);
     }
-    public void Shoot(GameTime time)
+    public void Shoot()
     {
-        if (time.TotalGameTime.TotalSeconds - lastShot < 0.3) return;
         var relative = Game1.self.mouse.Position - Bounds.Position;
         var velocity = relative / relative.Length() * Configuration.bulletSpeed;
         var bullet = new Bullet(new RectangleF((int)Bounds.Position.X, (int)Bounds.Position.Y, 10, 10), velocity);
-        Game1.self.activeScene.AddBullet(bullet);
-        lastShot = time.TotalGameTime.TotalSeconds;
+        Game1.self.activeScene.Add(bullet);
+    }
+    void OnLeftClick(MouseButtons button)
+    {
+        Shoot();
     }
     public override void OnCollision(CollisionEventArgs collisionInfo)
     {
         if (collisionInfo.Other.GetType() == typeof(Bullet)) return;
         base.OnCollision(collisionInfo);
-    }
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw(Texture, Bounds.Position, Color.White);
     }
 }

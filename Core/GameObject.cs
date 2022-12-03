@@ -12,18 +12,9 @@ public abstract class GameObject : IEntity
 
     protected Texture2D Texture;
 
-    public GameObject()
-    {
-
-    }
-
     public virtual void Draw(SpriteBatch spriteBatch)
     {
-        //spriteBatch.DrawRectangle((RectangleF)Bounds, Color.Red, 3);
-    }
-    public virtual void Initialize()
-    {
-
+        spriteBatch.Draw(Texture, Bounds.Position, Color.White);
     }
     public virtual void Update(GameTime gameTime)
     {

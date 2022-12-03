@@ -13,12 +13,8 @@ public class Bullet : GameObject
         Bounds = bounds;
         Velocity = vel;
     }
-    new public void Draw(SpriteBatch spriteBatch)
+    override public void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.DrawRectangle((RectangleF)Bounds, Color.Yellow, 3);
-    }
-    public override void OnCollision(CollisionEventArgs collisionInfo)
-    {
-        if (collisionInfo.Other.GetType() != typeof(Player)) Game1.self.activeScene.RemoveBullet(this);
     }
 }
