@@ -19,6 +19,9 @@ public class StateMachine
     public GameState state;
     public void UpdateStatus()
     {
+        if (Game1.self.activeScene is not null && !Game1.self.activeScene.EnemiesLeft()){
+            GameWon();
+        }
         if (state == GameState.GameWon && !Game1.self.activeScene.drawScreen)
         {
             ToStartMenu();
@@ -51,6 +54,7 @@ public class StateMachine
     public void Play(int arg)
     {
         Game1.self.homeScreen.Deactivate();
+        Game1.self.activeScene?.Clear();
         Game1.self.activeScene = new(1);
         Game1.self.activeScene.Initialize();
         state = GameState.Running;

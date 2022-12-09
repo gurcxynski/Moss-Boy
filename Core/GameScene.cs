@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -12,12 +13,14 @@ public class GameScene
     internal bool drawScreen = false;
     List<GameObject> gameObjects;
     List<Block> blocks;
+    public Player player;
     CollisionComponent collisionComponent = new (new RectangleF(-20, -20, Configuration.windowSize.X + 40, Configuration.windowSize.Y + 40));
     public GameScene(int level)
     {
+        player = new();
         gameObjects = new()
         {
-            new Player(),
+            player,
             new Enemy(),
             new Enemy(),
             new Enemy(),
@@ -69,4 +72,14 @@ public class GameScene
         collisionComponent.Update(gameTime);
     }
 
+    internal bool EnemiesLeft()
+    {
+        return gameObjects.FindAll(item => item.GetType() == typeof(Enemy)).Count > 0;
+    }
+
+    internal void Clear()
+    {
+        collisionComponent.Dispose();
+        Game1.self.mouse.OnMouseButtonPressed = null;
+    }
 }

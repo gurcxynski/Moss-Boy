@@ -12,7 +12,7 @@ public class Player : GameObject
     {
         Texture = Game1.self.textures["player"];
         Bounds = new RectangleF(50, 100, Texture.Width, Texture.Height);
-        Game1.self.mouse.OnMouseButtonPressed += OnLeftClick;
+        Game1.self.mouse.OnMouseButtonPressed += OnClick;
     }
     public override void Update(GameTime gameTime)
     {
@@ -31,13 +31,17 @@ public class Player : GameObject
         var bullet = new Bullet(new RectangleF((int)Bounds.Position.X, (int)Bounds.Position.Y, 10, 10), velocity);
         Game1.self.activeScene.Add(bullet);
     }
-    void OnLeftClick(MouseButtons button)
+    public void Hit()
     {
-        Shoot();
+
+    }
+    void OnClick(MouseButtons button)
+    {
+        if(button == MouseButtons.Left) Shoot();
     }
     public override void OnCollision(CollisionEventArgs collisionInfo)
     {
-        if (collisionInfo.Other.GetType() == typeof(Bullet)) return;
+        if (collisionInfo.Other.GetType() == typeof(Bullet) || collisionInfo.Other.GetType() == typeof(Enemy)) return;
         base.OnCollision(collisionInfo);
     }
 }

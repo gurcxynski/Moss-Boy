@@ -77,6 +77,8 @@ public class Game1 : Game
 
         activeScene?.Update(gameTime);
 
+        machine.UpdateStatus();
+
         base.Update(gameTime);
     }
 
@@ -88,7 +90,8 @@ public class Game1 : Game
 
         _spriteBatch.Draw(textures["arena"], new Rectangle(new Point(0, 0), new Point((int)Configuration.windowSize.X, (int)Configuration.windowSize.Y)), Color.White);
         homeScreen.Draw(_spriteBatch);
-        activeScene?.Draw(_spriteBatch);
+        
+        if (machine.state == StateMachine.GameState.Running) activeScene?.Draw(_spriteBatch);
 
         _spriteBatch.End();
 
