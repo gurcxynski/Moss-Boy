@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace MossBoy.Core;
 
@@ -15,18 +13,13 @@ public class GameScene
     List<Block> blocks;
     public Player player;
     CollisionComponent collisionComponent = new (new RectangleF(-20, -20, Configuration.windowSize.X + 40, Configuration.windowSize.Y + 40));
-    public GameScene(int level)
+    public GameScene()
     {
         player = new();
-        gameObjects = new()
-        {
-            player,
-            new Enemy(),
-            new Enemy(),
-            new Enemy(),
-            new Enemy(),
-            new Enemy(),
-        };
+        gameObjects = new() { player };
+
+        SpawnWave();
+
         blocks = new()
         {
             new(new RectangleF(-20, -20, Configuration.windowSize.X + 40, 20)), // upper
@@ -38,6 +31,16 @@ public class GameScene
             new(new RectangleF(-20, Configuration.windowSize.Y, Configuration.windowSize.X + 40, 20)), // down
         };
     }
+
+    void SpawnWave()
+    {
+        gameObjects.Add(new Enemy(1));
+        gameObjects.Add(new Enemy(1));
+        gameObjects.Add(new Enemy(1));
+        gameObjects.Add(new Enemy(1));
+        gameObjects.Add(new Enemy(1));
+    }
+
     public void Initialize()
     {
         gameObjects.ForEach(item => collisionComponent.Insert(item));
@@ -55,7 +58,6 @@ public class GameScene
     }
     internal void Remove(GameObject item)
     {
-        Debug.WriteLine(item.GetType());
         gameObjects.Remove(item);
         collisionComponent.Remove(item);
     }
@@ -81,5 +83,10 @@ public class GameScene
     {
         collisionComponent.Dispose();
         Game1.self.mouse.OnMouseButtonPressed = null;
+    }
+
+    internal void Reset()
+    {
+        gameObjects.ForEach(item => item.Reset());
     }
 }

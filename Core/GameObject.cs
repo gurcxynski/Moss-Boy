@@ -10,6 +10,8 @@ public abstract class GameObject : IEntity
     public Vector2 Velocity;
     public IShapeF Bounds { get; protected set; }
 
+    protected Vector2 originalPosition;
+
     protected Texture2D Texture;
 
     public virtual void Draw(SpriteBatch spriteBatch)
@@ -20,7 +22,10 @@ public abstract class GameObject : IEntity
     {
         Bounds.Position += Velocity * gameTime.GetElapsedSeconds();
     }
-
+    public virtual void Reset()
+    {
+        Bounds.Position = originalPosition;
+    }
     public virtual void OnCollision(CollisionEventArgs collisionInfo)
     {
         Bounds.Position -= collisionInfo.PenetrationVector;

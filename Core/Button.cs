@@ -4,18 +4,19 @@ using MonoGame.EasyInput;
 
 namespace MossBoy.Core;
 
-public class Button
+public abstract class Button
 {
     protected Vector2 position;
     protected Texture2D texture;
-    protected int level;
 
     protected bool active = false;
-    public Button(int lvl) => level = lvl;
-    public void Initalize()
+    public Button(Vector2 pos)
+    {
+        position = pos;
+    }
+    public virtual void Initialize()
     {
         texture = Game1.self.textures["button"];
-        position = new(level * 200, 200);
     }
     public void Draw(SpriteBatch spriteBatch)
     {
@@ -36,7 +37,7 @@ public class Button
             Action();
         }
     }
-    public virtual void Activate()
+    public void Activate()
     {
         active = true;
         Game1.self.mouse.OnMouseButtonPressed += OnClick;
@@ -46,8 +47,5 @@ public class Button
         active = false;
         Game1.self.mouse.OnMouseButtonPressed -= OnClick;
     }
-    protected void Action()
-    {
-        Game1.self.machine.Play(level);
-    }
+    protected abstract void Action();
 }

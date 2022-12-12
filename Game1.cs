@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.EasyInput;
-using MonoGame.Extended;
 using MossBoy.Core;
+using PlatformerGame.Core;
 using System.Collections.Generic;
 
 namespace MossBoy;
@@ -19,6 +19,7 @@ public class Game1 : Game
     public Dictionary<string, Texture2D> textures;
 
     public HomeScreen homeScreen; 
+    public LevelUpMenu pauseMenu; 
     public GameScene activeScene;
     public StateMachine machine;
 
@@ -44,6 +45,7 @@ public class Game1 : Game
 
         homeScreen = new();
         homeScreen.Activate();
+        pauseMenu = new();
 
         base.Initialize();
     }
@@ -57,6 +59,8 @@ public class Game1 : Game
             ["arena"] = Content.Load<Texture2D>("arena"),
             ["menubackground"] = Content.Load<Texture2D>("menu"),
             ["button"] = Content.Load<Texture2D>("button"),
+            ["buttonHP"] = Content.Load<Texture2D>("buttonHP"),
+            ["buttonDMG"] = Content.Load<Texture2D>("buttonDMG"),
             ["player"] = Content.Load<Texture2D>("player"),
             ["bullet"] = Content.Load<Texture2D>("bullet"),
             ["enemyA"] = Content.Load<Texture2D>("enemyA"),
@@ -65,6 +69,7 @@ public class Game1 : Game
         };
 
         homeScreen.Initialize();
+        pauseMenu.Initialize();
     }
 
     protected override void Update(GameTime gameTime)
@@ -89,8 +94,10 @@ public class Game1 : Game
         _spriteBatch.Begin();
 
         _spriteBatch.Draw(textures["arena"], new Rectangle(new Point(0, 0), new Point((int)Configuration.windowSize.X, (int)Configuration.windowSize.Y)), Color.White);
+
         homeScreen.Draw(_spriteBatch);
-        
+        pauseMenu.Draw(_spriteBatch);
+
         if (machine.state == StateMachine.GameState.Running) activeScene?.Draw(_spriteBatch);
 
         _spriteBatch.End();

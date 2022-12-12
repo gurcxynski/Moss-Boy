@@ -7,14 +7,13 @@ namespace MossBoy.Core;
 
 public class Bullet : GameObject
 {
-
-    public Bullet(RectangleF bounds, Vector2 vel) : base()
+    public Bullet(Vector2 pos, Vector2 vel) : base()
     {
-        Bounds = bounds;
+        Bounds = new RectangleF(pos, new Size2(7, 7));
         Velocity = vel;
     }
     override public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.DrawRectangle((RectangleF)Bounds, Color.Yellow, 3);
+        spriteBatch.FillRectangle((RectangleF)Bounds, Color.Red);
     }
 }

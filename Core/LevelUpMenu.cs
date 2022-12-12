@@ -4,13 +4,14 @@ using PlatformerGame.Buttons;
 
 namespace PlatformerGame.Core;
 
-public class HomeScreen : Menu
+public class LevelUpMenu : Menu
 {
-    public HomeScreen() 
+    public LevelUpMenu() 
     {
         buttons = new()
         {
-            new PlayButton(new Vector2(100, 100))
+            new HitPointButton(new Vector2(100, 100)),
+            new DamageButton(new Vector2(250, 100)),
         };
     }
 }
