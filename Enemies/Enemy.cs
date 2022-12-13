@@ -1,37 +1,30 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
+using MossBoy;
+using MossBoy.Core;
 using System;
 
-namespace MossBoy.Core;
+namespace PlatformerGame.Enemies;
 
 internal class Enemy : GameObject
 {
-    double lastTurned = 0;
-    int turnTimer = 0;
-    int HP;
-    public Enemy(int type)
+    protected double lastTurned = 0;
+    protected int turnTimer = 0;
+    protected int HP;
+    protected int expValue;
+    int baseSpeed;
+    public Enemy(char type)
     {
+        baseSpeed = Configuration.enemySpeed[type - 65];
         var random = new Random();
         var x = random.Next(20, (int)Configuration.windowSize.X - 20);
-        var y = random.Next(20, (int)Configuration.windowSize.Y - 300);
+        var y = random.Next(20, (int)Configuration.windowSize.Y - 300); 
         originalPosition = new(x, y);
-        switch (type)
-        {
-            case 1:
-                Texture = Game1.self.textures[$"enemyA"];
-                HP = 5; 
-                break;
-            case 2:
-                Texture = Game1.self.textures[$"enemyB"];
-                HP = 7;
-                break;
-            case 3:
-                Texture = Game1.self.textures[$"enemyC"];
-                HP = 10;
-                break;
-        }
-        Bounds = new RectangleF(x, y, Texture.Width, Texture.Height);
+        Texture = Game1.self.textures["enemy" + type.ToString().ToUpper()];
+        Bounds = new RectangleF(originalPosition, new Point(Texture.Width, Texture.Height));
+        HP = Configuration.enemyHP[type - 65];
+        expValue = (type - 64) * 10;
     }
     public override void OnCollision(CollisionEventArgs collisionInfo)
     {
@@ -42,7 +35,7 @@ internal class Enemy : GameObject
             if (HP <= 0)
             {
                 Game1.self.activeScene.Remove(this);
-                Game1.self.activeScene.player.GainXP();
+                Game1.self.activeScene.player.GainXP(expValue);
             }
         }
         if (collisionInfo.Other.GetType() == typeof(Player))
@@ -64,11 +57,11 @@ internal class Enemy : GameObject
         }
         base.Update(updateTime);
     }
-    void UpdateVelocity()
+    protected void UpdateVelocity()
     {
         var rand = new Random();
-        var relative = (Game1.self.activeScene.player.Bounds.Position - Bounds.Position);
-        var vel = relative / relative.Length() * Configuration.EnemyVel;
+        var relative = Game1.self.activeScene.player.Bounds.Position - Bounds.Position;
+        var vel = relative / relative.Length() * baseSpeed;
         Velocity = vel;
         turnTimer = rand.Next(1, 3);
     }

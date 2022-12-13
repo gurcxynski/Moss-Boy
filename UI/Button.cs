@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.EasyInput;
+using MossBoy;
 
-namespace MossBoy.Core;
+namespace PlatformerGame.UI;
 
 public abstract class Button
 {
@@ -20,7 +21,7 @@ public abstract class Button
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(texture, position, EnteredButton() ? Color.DarkBlue : Color.White);
+        spriteBatch.Draw(texture, position, EnteredButton() ? Color.PeachPuff : Color.White);
     }
     protected bool EnteredButton()
     {

@@ -3,8 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.EasyInput;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using System;
-using System.Diagnostics;
+using PlatformerGame.Enemies;
 
 namespace MossBoy.Core;
 
@@ -42,19 +41,20 @@ public class Player : GameObject
     }
     void OnClick(MouseButtons button)
     {
-        if(button == MouseButtons.Left) Shoot();
+        if(Game1.self.machine.state == StateMachine.GameState.Running && button == MouseButtons.Left) Shoot();
     }
     public override void OnCollision(CollisionEventArgs collisionInfo)
     {
         if (collisionInfo.Other.GetType() == typeof(Bullet) || collisionInfo.Other.GetType() == typeof(Enemy)) return;
         base.OnCollision(collisionInfo);
     }
-    internal void GainXP()
+    internal void GainXP(int amount)
     {
-        XP += 20;
-        if (XP == 40)
+        var needed = 100 + 20 * Game1.self.activeScene.waveLevel;
+        XP += amount;
+        if (XP >= needed)
         {
-            XP = 0;
+            XP -= needed;
             Game1.self.machine.LevelUp();
         }
     }

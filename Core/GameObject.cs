@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
+using System.Diagnostics;
 
 namespace MossBoy.Core;
 
@@ -20,7 +21,7 @@ public abstract class GameObject : IEntity
     }
     public virtual void Update(GameTime gameTime)
     {
-        Bounds.Position += Velocity * gameTime.GetElapsedSeconds();
+        Bounds.Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
     public virtual void Reset()
     {

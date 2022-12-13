@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using MossBoy;
-using MossBoy.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlatformerGame.Buttons
+namespace PlatformerGame.UI
 {
     public class PlayButton : Button
     {

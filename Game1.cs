@@ -3,8 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.EasyInput;
 using MossBoy.Core;
-using PlatformerGame.Core;
+using PlatformerGame.UI;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MossBoy;
 public class Game1 : Game
@@ -96,9 +97,10 @@ public class Game1 : Game
         _spriteBatch.Draw(textures["arena"], new Rectangle(new Point(0, 0), new Point((int)Configuration.windowSize.X, (int)Configuration.windowSize.Y)), Color.White);
 
         homeScreen.Draw(_spriteBatch);
-        pauseMenu.Draw(_spriteBatch);
 
-        if (machine.state == StateMachine.GameState.Running) activeScene?.Draw(_spriteBatch);
+        if (machine.state == StateMachine.GameState.Running || machine.state == StateMachine.GameState.Paused) activeScene?.Draw(_spriteBatch);
+
+        pauseMenu.Draw(_spriteBatch);
 
         _spriteBatch.End();
 

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace MossBoy.Core;
+namespace PlatformerGame.UI;
 
 public abstract class Menu
 {
@@ -10,17 +10,13 @@ public abstract class Menu
 
     protected bool isActive = false;
 
-    protected Texture2D back;
     public void Initialize()
     {
-        back = Game1.self.textures["menubackground"];
-
         buttons.ForEach(button => button.Initialize());
     }
     public void Draw(SpriteBatch spriteBatch)
     {
         if (!isActive) return;
-        spriteBatch.Draw(back, new Vector2(0,0), Color.White);
         buttons.ForEach(delegate (Button btn) { btn.Draw(spriteBatch); });
     }
     public void Activate()

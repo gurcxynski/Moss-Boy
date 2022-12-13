@@ -2,7 +2,7 @@
 using MossBoy;
 using MossBoy.Core;
 
-namespace PlatformerGame.Buttons
+namespace PlatformerGame.UI
 {
     internal class HitPointButton : Button
     {

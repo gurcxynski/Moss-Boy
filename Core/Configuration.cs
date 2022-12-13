@@ -9,8 +9,8 @@ internal static class Configuration
     public static float playerMove = 100;
     public static float dampening = 0.8f;
     public static float bulletSpeed = 2000;
-    public static int EnemyVel = 120;
     public static int playerHP = 3;
     public static int playerDMG = 1;
-
+    public static int[] enemyHP = { 5, 10, 15 };
+    public static int[] enemySpeed = { 100, 150, 200 };
 }

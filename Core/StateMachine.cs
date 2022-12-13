@@ -6,17 +6,17 @@ public class StateMachine
 {
     public enum GameState
     {
+        HomeScreen,
         Running,
         GameWon,
         GameLost,
-        HomeScreen,
         Paused
     }
     public GameState state;
     public int wave = 0;
     public void UpdateStatus()
     {
-        if (Game1.self.activeScene is not null && !Game1.self.activeScene.EnemiesLeft()){
+        if (Game1.self.activeScene is not null && !Game1.self.activeScene.EnemiesLeft() && state == GameState.Running){
             NextLevel();
         }
         if (state == GameState.GameWon && !Game1.self.activeScene.drawScreen)
@@ -31,9 +31,7 @@ public class StateMachine
 
     void NextLevel()
     {
-        Game1.self.activeScene?.Clear();
-        Game1.self.activeScene = new();
-        Game1.self.activeScene.Initialize();
+        Game1.self.activeScene.SpawnWave();
         state = GameState.Running;
     }
 
@@ -61,13 +59,13 @@ public class StateMachine
     public void Play()
     {
         Game1.self.homeScreen.Deactivate();
-        Game1.self.activeScene?.Clear();
         Game1.self.activeScene = new();
         Game1.self.activeScene.Initialize();
         state = GameState.Running;
     }
     public void LevelUp()
     {
+        Game1.self.activeScene.waveLevel++;
         state = GameState.Paused;
         Game1.self.pauseMenu.Activate();
     }

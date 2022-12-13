@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using MossBoy.Core;
-using PlatformerGame.Buttons;
 
-namespace PlatformerGame.Core;
+namespace PlatformerGame.UI;
 
 public class LevelUpMenu : Menu
 {
-    public LevelUpMenu() 
+    public LevelUpMenu()
     {
         buttons = new()
         {
