@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.EasyInput;
 using MossBoy;
 
-namespace PlatformerGame.UI;
+namespace MossBoy.UI;
 
 public abstract class Button
 {

@@ -2,14 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace PlatformerGame.UI;
+namespace MossBoy.UI;
 
 public abstract class Menu
 {
     protected List<Button> buttons { get; init; }
-
     protected bool isActive = false;
-
+    public Vector2 Position;
     public void Initialize()
     {
         buttons.ForEach(button => button.Initialize());

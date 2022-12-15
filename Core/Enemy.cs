@@ -1,16 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using MossBoy;
-using MossBoy.Core;
 using System;
 
-namespace PlatformerGame.Enemies;
+namespace MossBoy.Core;
 
 internal class Enemy : GameObject
 {
     protected double lastTurned = 0;
-    protected int turnTimer = 0;
+    protected float turnTimer = 0;
     protected int HP;
     protected int expValue;
     int baseSpeed;
@@ -19,7 +17,7 @@ internal class Enemy : GameObject
         baseSpeed = Configuration.enemySpeed[type - 65];
         var random = new Random();
         var x = random.Next(20, (int)Configuration.windowSize.X - 20);
-        var y = random.Next(20, (int)Configuration.windowSize.Y - 300); 
+        var y = random.Next(20, (int)Configuration.windowSize.Y - 300);
         originalPosition = new(x, y);
         Texture = Game1.self.textures["enemy" + type.ToString().ToUpper()];
         Bounds = new RectangleF(originalPosition, new Point(Texture.Width, Texture.Height));
@@ -63,7 +61,7 @@ internal class Enemy : GameObject
         var relative = Game1.self.activeScene.player.Bounds.Position - Bounds.Position;
         var vel = relative / relative.Length() * baseSpeed;
         Velocity = vel;
-        turnTimer = rand.Next(1, 3);
+        turnTimer = 0.5f + (float)(rand.NextDouble() * 1.5);
     }
     public override void Reset()
     {

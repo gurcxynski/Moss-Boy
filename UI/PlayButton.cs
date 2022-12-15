@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MossBoy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
-namespace PlatformerGame.UI
+namespace MossBoy.UI
 {
     public class PlayButton : Button
     {
@@ -14,9 +10,13 @@ namespace PlatformerGame.UI
         {
             position = pos;
         }
-
+        override public void Initialize()
+        {
+            texture = Game1.self.textures["startbutton"];
+        }
         override protected void Action()
         {
+            Debug.WriteLine("oeeoeoe");
             Game1.self.machine.Play();
         }
     }

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.EasyInput;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using PlatformerGame.Enemies;
+using MossBoy.Core;
 
 namespace MossBoy.Core;
 
@@ -50,7 +50,7 @@ public class Player : GameObject
     }
     internal void GainXP(int amount)
     {
-        var needed = 100 + 20 * Game1.self.activeScene.waveLevel;
+        var needed = 200 + 20 * Game1.self.activeScene.waveLevel;
         XP += amount;
         if (XP >= needed)
         {

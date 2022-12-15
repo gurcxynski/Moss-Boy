@@ -2,10 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using PlatformerGame.Enemies;
+using MossBoy.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Timers;
 
 namespace MossBoy.Core;
 
@@ -17,6 +18,8 @@ public class GameScene
     public Player player;
     CollisionComponent collisionComponent = new (new RectangleF(-20, -20, Configuration.windowSize.X + 40, Configuration.windowSize.Y + 40));
     internal int waveLevel = 0;
+    Timer timer;
+    Texture2D toDraw;
 
     public GameScene()
     {
@@ -40,10 +43,10 @@ public class GameScene
     public void SpawnWave()
     {
         List<Enemy> toAdd = new();
-        Random rand = new Random();
-        var a = rand.Next(5, 5 * (waveLevel + 1));
-        var b = rand.Next(3, 3 * (waveLevel + 1));
-        var c = rand.Next(waveLevel);
+        Random rand = new();
+        var a = 5 + waveLevel * (2 + waveLevel * rand.Next(3, 5));
+        var b = 3 + waveLevel * (1 + waveLevel * rand.Next(1, 2));
+        var c = rand.Next(0, waveLevel);
         for (int _ = 0; _ < a; _++)
         {
             toAdd.Add(new Enemy('A'));
@@ -56,7 +59,7 @@ public class GameScene
         {
             toAdd.Add(new Enemy('C'));
         }
-        Debug.WriteLine($"spawned {a}, {b}, {c}");
+        Debug.WriteLine($"WAVE {waveLevel}, A: {a}, B: {b}, C: {c}");
         toAdd.ForEach(item => collisionComponent.Insert(item));
         gameObjects.AddRange(toAdd);
         player.Bounds.Position = Configuration.startPos;
@@ -68,9 +71,22 @@ public class GameScene
         blocks.ForEach(block => collisionComponent.Insert(block));
     }
 
-    public void TextPopUp(int time, string text)
+    public void TextPopUp(int time, Texture2D texture)
     {
-        
+        drawScreen = true;
+        timer = new(time)
+        {
+            Enabled = true
+        };
+        timer.Elapsed += TimedOut;
+        toDraw = texture;
+    }
+    void TimedOut(object sender, ElapsedEventArgs e)
+    {
+        drawScreen = false;
+        timer.Enabled = false;
+        timer.Elapsed -= TimedOut;
+        timer.Dispose();
     }
     public void Add(GameObject item)
     {
@@ -86,6 +102,11 @@ public class GameScene
     {
         gameObjects.ForEach(item => item.Draw(spriteBatch));
         blocks.ForEach(block => block.Draw(spriteBatch));
+        if (drawScreen)
+        {
+            var pos = (Configuration.windowSize - new Vector2(toDraw.Width, toDraw.Height)) / 2;
+            spriteBatch.Draw(toDraw, pos, Color.White);
+        }
     }
 
     public void Update(GameTime gameTime)

@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MossBoy;
+using MossBoy.Core;
 
-namespace PlatformerGame.UI;
+namespace MossBoy.UI;
 
 public class HomeScreen : Menu
 {
@@ -11,18 +12,19 @@ public class HomeScreen : Menu
     {
         buttons = new()
         {
-            new PlayButton(new Vector2(100, 100))
+            new PlayButton(Configuration.windowSize / 2 - new Vector2(70, 70)),
         };
     }
     public new void Initialize()
     {
         back = Game1.self.textures["menubackground"];
+        Position = new((Configuration.windowSize.X - back.Width) / 2, 10);
         base.Initialize();
     }
     public new void Draw(SpriteBatch spriteBatch)
     {
-        if (!isActive) return;
-        spriteBatch.Draw(back, new Vector2(0, 0), Color.White);
+        if (!isActive) return; 
+        spriteBatch.Draw(back, Position, Color.White);
         base.Draw(spriteBatch);
     }
 }
