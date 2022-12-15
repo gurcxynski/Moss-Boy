@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MossBoy;
 using MossBoy.Core;
 
 namespace MossBoy.UI;
@@ -23,7 +22,7 @@ public class HomeScreen : Menu
     }
     public new void Draw(SpriteBatch spriteBatch)
     {
-        if (!isActive) return; 
+        if (!isActive) return;
         spriteBatch.Draw(back, Position, Color.White);
         base.Draw(spriteBatch);
     }

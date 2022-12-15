@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MossBoy;
 using MossBoy.Core;
 
 namespace MossBoy.UI

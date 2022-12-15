@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using System.Diagnostics;
 
 namespace MossBoy.Core;
 

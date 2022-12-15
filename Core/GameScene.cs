@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using MossBoy.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,7 +15,7 @@ public class GameScene
     List<GameObject> gameObjects;
     List<Block> blocks;
     public Player player;
-    CollisionComponent collisionComponent = new (new RectangleF(-20, -20, Configuration.windowSize.X + 40, Configuration.windowSize.Y + 40));
+    CollisionComponent collisionComponent = new(new RectangleF(-20, -20, Configuration.windowSize.X + 40, Configuration.windowSize.Y + 40));
     internal int waveLevel = 0;
     Timer timer;
     Texture2D toDraw;

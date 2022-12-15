@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoGame.EasyInput;
 using MossBoy.Core;
 using MossBoy.UI;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace MossBoy;
 public class Game1 : Game
@@ -19,8 +17,8 @@ public class Game1 : Game
 
     public Dictionary<string, Texture2D> textures;
 
-    public HomeScreen homeScreen; 
-    public LevelUpMenu pauseMenu; 
+    public HomeScreen homeScreen;
+    public LevelUpMenu pauseMenu;
     public GameScene activeScene;
     public StateMachine machine;
     internal SpriteFont font;

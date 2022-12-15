@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.EasyInput;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using MossBoy.Core;
 
 namespace MossBoy.Core;
 
@@ -41,7 +40,7 @@ public class Player : GameObject
     }
     void OnClick(MouseButtons button)
     {
-        if(Game1.self.machine.state == StateMachine.GameState.Running && button == MouseButtons.Left) Shoot();
+        if (Game1.self.machine.state == StateMachine.GameState.Running && button == MouseButtons.Left) Shoot();
     }
     public override void OnCollision(CollisionEventArgs collisionInfo)
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MossBoy.Core;
+﻿namespace MossBoy.Core;
 
 public class StateMachine
 {
@@ -16,7 +14,8 @@ public class StateMachine
     public GameState state;
     public void UpdateStatus()
     {
-        if (Game1.self.activeScene is not null && !Game1.self.activeScene.EnemiesLeft() && state == GameState.Running){
+        if (Game1.self.activeScene is not null && !Game1.self.activeScene.EnemiesLeft() && state == GameState.Running)
+        {
             NextLevel();
         }
         if (state == GameState.GameLost && !Game1.self.activeScene.drawScreen)
