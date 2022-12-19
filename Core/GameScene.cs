@@ -1,62 +1,134 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
+using System;
 using System.Collections.Generic;
-namespace PlatformerGame.Core
+using System.Diagnostics;
+using System.Timers;
+
+namespace MossBoy.Core;
+
+public class GameScene
 {
-    public class GameScene
+    internal bool drawScreen = false;
+    List<GameObject> gameObjects;
+    List<Block> blocks;
+    public Player player;
+    CollisionComponent collisionComponent = new(new RectangleF(-20, -20, Configuration.windowSize.X + 40, Configuration.windowSize.Y + 40));
+    internal int waveLevel = 0;
+    Timer timer;
+    Texture2D toDraw;
+
+    public GameScene()
     {
-        internal bool drawScreen = false;
-        Player player;
-        List<Block> blocks;
-        List<Bullet> bullets;
-        CollisionComponent collisionComponent = new (new RectangleF(0, 0, Configuration.windowSize.X, Configuration.windowSize.Y));
-        public GameScene(int level)
-        {
-            player = new(new RectangleF(50, 100, 50, 50), new(0, 1));
-            blocks = new()
-            {
-                new(new RectangleF(100, 300, 100, 20)),
-                new(new RectangleF(300, 100, 400, 20)),
-                new(new RectangleF(300, 400, 400, 20)),
+        player = new();
+        gameObjects = new() { player };
 
-                new(new RectangleF(0, Configuration.windowSize.Y - 20, Configuration.windowSize.X, 80)),
-                //new(new RectangleF(0, 0, Configuration.windowSize.X, 20)),
-                
-                new(new RectangleF(-20, 0, 25, Configuration.windowSize.Y)),
-                new(new RectangleF(Configuration.windowSize.X - 5, 0, 25, Configuration.windowSize.Y)),
-            };
-            bullets = new();
-        }
-        public void Initialize()
+        SpawnWave();
+
+        blocks = new()
         {
-            collisionComponent.Insert(player);
-            blocks.ForEach(block => collisionComponent.Insert(block));
-        }
-        public void AddBullet(Bullet item)
-        {
-            bullets.Add(item);
-            collisionComponent.Insert(item);
-        }
-        public void TextPopUp(int time, string text)
-        {
+            new(new RectangleF(-20, -20, Configuration.windowSize.X + 40, 20)), // upper
+
+            new(new RectangleF(-20, -20, 20, Configuration.windowSize.Y + 40)), // left
+
+            new(new RectangleF(Configuration.windowSize.X, -20, 20, Configuration.windowSize.Y + 40)), // right
             
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            player.Draw(spriteBatch);
-            blocks.ForEach(block => block.Draw(spriteBatch));
-            bullets.ForEach(bullet => bullet.Draw(spriteBatch));
-        }
+            new(new RectangleF(-20, Configuration.windowSize.Y, Configuration.windowSize.X + 40, 20)), // down
+        };
+    }
 
-        public void Update(GameTime gameTime)
+    public void SpawnWave()
+    {
+        List<Enemy> toAdd = new();
+        Random rand = new();
+        var a = 5 + waveLevel * (2 + waveLevel * rand.Next(3, 5));
+        var b = 3 + waveLevel * (1 + waveLevel * rand.Next(1, 2));
+        var c = rand.Next(0, waveLevel);
+        for (int _ = 0; _ < a; _++)
         {
-            player.Update(gameTime);
-            blocks.ForEach(block => block.Update(gameTime));
-            bullets.ForEach(bullet => bullet.Update(gameTime));
-            collisionComponent.Update(gameTime);
-
+            toAdd.Add(new Enemy('A'));
         }
+        for (int _ = 0; _ < b; _++)
+        {
+            toAdd.Add(new Enemy('B'));
+        }
+        for (int _ = 0; _ < c; _++)
+        {
+            toAdd.Add(new Enemy('C'));
+        }
+        Debug.WriteLine($"WAVE {waveLevel}, A: {a}, B: {b}, C: {c}");
+        toAdd.ForEach(item => collisionComponent.Insert(item));
+        gameObjects.AddRange(toAdd);
+        player.Bounds.Position = Configuration.startPos;
+    }
+
+    public void Initialize()
+    {
+        gameObjects.ForEach(item => collisionComponent.Insert(item));
+        blocks.ForEach(block => collisionComponent.Insert(block));
+    }
+
+    public void TextPopUp(int time, Texture2D texture)
+    {
+        drawScreen = true;
+        timer = new(time)
+        {
+            Enabled = true
+        };
+        timer.Elapsed += TimedOut;
+        toDraw = texture;
+    }
+    void TimedOut(object sender, ElapsedEventArgs e)
+    {
+        drawScreen = false;
+        timer.Enabled = false;
+        timer.Elapsed -= TimedOut;
+        timer.Dispose();
+    }
+    public void Add(GameObject item)
+    {
+        gameObjects.Add(item);
+        collisionComponent.Insert(item);
+    }
+    internal void Remove(GameObject item)
+    {
+        gameObjects.Remove(item);
+        collisionComponent.Remove(item);
+    }
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        gameObjects.ForEach(item => item.Draw(spriteBatch));
+        blocks.ForEach(block => block.Draw(spriteBatch));
+        if (drawScreen)
+        {
+            var pos = (Configuration.windowSize - new Vector2(toDraw.Width, toDraw.Height)) / 2;
+            spriteBatch.Draw(toDraw, pos, Color.White);
+        }
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (Game1.self.machine.state != StateMachine.GameState.Running) return;
+        gameObjects.ForEach(item => item.Update(gameTime));
+        blocks.ForEach(block => block.Update(gameTime));
+        collisionComponent.Update(gameTime);
+    }
+
+    internal bool EnemiesLeft()
+    {
+        return gameObjects.FindAll(item => item.GetType() == typeof(Enemy)).Count > 0;
+    }
+
+    internal void Clear()
+    {
+        collisionComponent.Dispose();
+        Game1.self.mouse.OnMouseButtonPressed = null;
+    }
+
+    internal void Reset()
+    {
+        gameObjects.ForEach(item => item.Reset());
     }
 }

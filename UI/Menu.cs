@@ -2,31 +2,20 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace PlatformerGame.Core;
+namespace MossBoy.UI;
 
-public class  HomeScreen
+public abstract class Menu
 {
-    readonly protected List<Button> buttons;
-
+    protected List<Button> buttons { get; init; }
     protected bool isActive = false;
-
-    protected Texture2D back;
-    protected Texture2D title;
-    public HomeScreen() => buttons = new()
+    public Vector2 Position;
+    public void Initialize()
     {
-        new Button(1),
-        new Button(2)
-    };
-    public virtual void Initialize()
-    {
-        back = Game1.self.textures["menubackground"];
-
-        buttons.ForEach(button => button.Initalize());
+        buttons.ForEach(button => button.Initialize());
     }
     public void Draw(SpriteBatch spriteBatch)
     {
         if (!isActive) return;
-        spriteBatch.Draw(back, new Vector2(0,0), Color.White);
         buttons.ForEach(delegate (Button btn) { btn.Draw(spriteBatch); });
     }
     public void Activate()

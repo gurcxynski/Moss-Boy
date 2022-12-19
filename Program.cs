@@ -1,3 +1,3 @@
 ﻿
-using var game = new PlatformerGame.Game1();
+using var game = new MossBoy.Game1();
 game.Run();
